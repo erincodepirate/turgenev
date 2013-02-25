@@ -1,4 +1,32 @@
 turgenev
 ========
 
-A simple chess engine written in Go
+Turgenev is a simple chess engine written in Go. It supports (minimally and
+experimentally!) the XBoard protocol so it can be used as an engine for GUIs
+like PyChess. All told, it still needs a lot of work.
+
+building
+========
+
+This is intended to build with either of the major Go compilers. The go command
+should "just work" ('go build', that is), and a makefile is included for gccgo.
+
+installing
+==========
+
+The build results in a single binary which can be copied wherever.
+/usr/local/bin/turgenev would be a natural place for it. 
+
+I've focused exclusively on making this work with PyChess, for which you'll
+need to add an entry in its engines.xml (in ~/.config/pychess/engines.xml on
+Fedora, for what it's worth). Something like this should do:
+
+&lt;engine binname="/usr/local/bin/turgenev" protocol="cecp" protover="1"&gt;&lt;/engine&gt;
+
+distributing
+============
+
+You may redistrute this work under the terms of the GNU General Public License
+version 3 or later. A copy of the license is in the LICENSE file and is also
+available at http://www.gnu.org/licenses/gpl.txt
+
