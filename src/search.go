@@ -39,20 +39,6 @@ func SVPList(l *list.List) *list.List {
 	return svp
 }
 
-func Lookup(children *list.List) int {
-	count := 0
-
-	for e := children.Front(); e != nil; e = e.Next() {
-		child := e.Value.(*StateValuePair)
-		if tableValue, exists := TTable[child.state.Hash()]; exists {
-			child.value = tableValue
-			count++
-		}
-	}
-
-	return count
-}
-
 func (s *State) NegamaxST2(depth int) *State {
 	start := time.Now()
 
