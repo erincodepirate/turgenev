@@ -7,7 +7,6 @@ import (
 
 var (
 	SessionStart int64 = time.Now().Unix()
-	TTableFile string = "ttable.txt"
 	verbose bool = false
 )
 
@@ -19,7 +18,6 @@ const (
 )
 
 func main() {
-	LoadTTable(TTableFile)
 	s := InitialState()
 
 	for {
@@ -29,25 +27,19 @@ func main() {
 		if a == MakeMove {
 			s = c
 			if Mode == TUI { PrintState(s, Orientation) }
-			if s.TrueLegalSuccessors().Len() == 0 {
+			if s.LegalSuccessors().Len() == 0 {
 				verbose = true
-				PrintLog("Break point A\n")
-				PrintLog(fmt.Sprintf(
-		"TrueLegalSuccessors() has %d fewer element(s) than LegalSuccessors()\n",
-		s.LegalSuccessors().Len() - s.TrueLegalSuccessors().Len()))
 				break
 			}
 		}
 
 		if Mode == TUI { fmt.Printf("Thinking... ") }
-		c = s.SingleSearchWithTTable(4)
+		c = s.Negamax(4)
 
 		if c == nil {
 			PrintLog("Break point B\n")
 			break
 		}
-
-		DumpTTable(TTableFile)
 
 		if Mode == TUI {
 			fmt.Printf("My move: ")
@@ -58,7 +50,7 @@ func main() {
 		PrintLog("\t\t\tOUTPUT: move " + MoveString(s, c, Coordinate) + "\n")
 
 		s = c
-		if s.TrueLegalSuccessors().Len() == 0 {
+		if s.LegalSuccessors().Len() == 0 {
 			PrintLog("Break point C\n")
 			break
 		}
