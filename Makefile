@@ -1,4 +1,4 @@
 all:
-	gccgo -Wall -Ofast -o turgenev turgenev.go state.go mechanics.go io.go search.go tables.go
+	gccgo -Wall -O2 -o bin/turgenev src/*.go
 clean:
-	rm turgenev
+	rm bin/turgenev
