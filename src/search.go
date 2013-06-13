@@ -42,14 +42,14 @@ func SVPList(l *list.List) *list.List {
 func (s *State) NegamaxST2(depth int) *State {
 	start := time.Now()
 
-	children, bestValue := s.TrueLegalSuccessors(), NegInfinity
+	children, bestValue := s.LegalSuccessors(), NegInfinity
 	var choice *State
 
 	Depth, TreeNodes, Threads, Processors = depth, 0, 1, runtime.NumCPU()
 
 	for e := children.Front(); e != nil; e = e.Next() {
 		child, value := e.Value.(*State), 0
-		grandchildren := child.TrueLegalSuccessors()
+		grandchildren := child.LegalSuccessors()
 
 		// If checkmate is possible, don't beat around the bush...
 		if grandchildren.Len() == 0 && child.InCheck() {
