@@ -34,7 +34,7 @@ func main() {
 		}
 
 		if Mode == TUI { fmt.Printf("Thinking... ") }
-		c = s.Negamax(4)
+		c = s.NegamaxST(4)
 
 		if c == nil {
 			PrintLog("Break point B\n")

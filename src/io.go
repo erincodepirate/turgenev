@@ -94,7 +94,7 @@ func StringsToStates(start *State) map[string]*State {
 
 func PrintResults(final *State) {
 	if final.InCheck() {
-		if final.ToMove == Black {
+		if final.GetToMove() == Black {
 			if Mode == TUI {
 				fmt.Printf("\nCheckmate. White wins.\n\n")
 			} else {
@@ -202,7 +202,7 @@ func MoveString(s1, s2 *State, mr MoveRepresentation) string {
 	differences := 0
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
-			if s1.GetSquare(i, j) != s2.GetSquare(i, j) {
+			if s1.getSquare(i, j) != s2.getSquare(i, j) {
 				differences++
 			}
 		}
@@ -226,7 +226,7 @@ func RegularMoveString(s1, s2 *State, mr MoveRepresentation) string {
 
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
-			if s1.GetSquare(i, j) != s2.GetSquare(i, j) {
+			if s1.getSquare(i, j) != s2.getSquare(i, j) {
 				if s2.GetPiece(i, j) == Empty {
 					r1, c1 = i, j
 				} else {
@@ -276,7 +276,7 @@ func EnPassantMoveString(s1, s2 *State, mr MoveRepresentation) string {
 
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
-			if s1.GetSquare(i, j) != s2.GetSquare(i, j) {
+			if s1.getSquare(i, j) != s2.getSquare(i, j) {
 				if s2.GetPiece(i, j) != Empty {
 					r2, c2 = i, j
 				} else if (s1.GetColor(i, j) == Black && i == 3) ||
@@ -297,19 +297,19 @@ func EnPassantMoveString(s1, s2 *State, mr MoveRepresentation) string {
 
 func CastleMoveString(s1, s2 *State, mr MoveRepresentation) string {
 	if mr != Coordinate {
-		if s1.GetSquare(0, 0) != s2.GetSquare(0, 0) ||
-		   s1.GetSquare(7, 0) != s2.GetSquare(7, 0) {
+		if s1.getSquare(0, 0) != s2.getSquare(0, 0) ||
+		   s1.getSquare(7, 0) != s2.getSquare(7, 0) {
 			return "O-O-O"
 		}
 		return "O-O"
 	}
 
 	switch {
-	case s1.GetSquare(0, 0) != s2.GetSquare(0, 0):
+	case s1.getSquare(0, 0) != s2.getSquare(0, 0):
 		return "e1c1"
-	case s1.GetSquare(7, 0) != s2.GetSquare(7, 0):
+	case s1.getSquare(7, 0) != s2.getSquare(7, 0):
 		return "e8c8"
-	case s1.GetSquare(0, 7) != s2.GetSquare(0, 7):
+	case s1.getSquare(0, 7) != s2.getSquare(0, 7):
 		return "e1g1"
 	}
 	return "e8g8"
