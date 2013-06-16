@@ -1,10 +1,3 @@
-
-**** As of June 12, 2013, the build is purposefully broken. ****
-
-i.e., it's so ugly I don't even want you to look at it until I fix it. ;-)
-
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 Turgenev is a simple chess engine written in Go. It supports (minimally and
 experimentally!) the XBoard protocol so it can be used as an engine for GUIs
 like PyChess. All told, it still needs a lot of work.
@@ -12,7 +5,10 @@ like PyChess. All told, it still needs a lot of work.
 BUILD
 
 This is intended to build with either of the major Go compilers. The go command
-should "just work" ('go build', that is), and a makefile is included for gccgo.
+should  work* ('go build', that is), and a makefile is included for gccgo.
+
+* gc doesn't seem to like my new directory structure, so for the time being,
+gccgo is the preferred compiler.
 
 INSTALLATION
 
