@@ -30,7 +30,7 @@ var (
 
 // The main function is primarily for argument parsing...
 func main() {
-	GameLoop(NegamaxWrapper, 4)
+	GameLoop(NegamaxST, 4)
 }
 
 // This is the primary game loop...
