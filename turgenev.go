@@ -25,22 +25,30 @@ import (
 var (
 	SessionStart int64 = time.Now().Unix()
 	verbose bool = false
+	Log string = "/tmp/turgenev.log"
 )
 
-type Action byte
+func NegamaxWrapper(s *State, depth int) *State {
+	return s.NegamaxST(depth)
+}
 
-const (
-	MakeMove Action = iota
-	SetCompWhite
-)
+type SearchFunction func(*State, int) *State
 
+// The main function is primarily for argument parsing...
 func main() {
+	GameLoop(NegamaxWrapper, 4)
+}
+
+// This is the primary game loop...
+func GameLoop(search SearchFunction, depth int) {
 	s := InitialState()
 
 	for {
 		if Mode == TUI { PrintState(s, Orientation) }
-		c, a := Prompt(s)
 
+		// The 'Action' a is a hack to drop through and pass
+		// control to the other player.
+		c, a := Prompt(s)
 		if a == MakeMove {
 			s = c
 			if Mode == TUI { PrintState(s, Orientation) }
@@ -50,14 +58,16 @@ func main() {
 			}
 		}
 
+		// Call our search function!
 		if Mode == TUI { fmt.Printf("Thinking... ") }
-		c = s.NegamaxST(4)
+		c = search(s, 4)
 
+		// If the search came up empty, break out of the loop.
 		if c == nil {
-			PrintLog("Break point B\n")
 			break
 		}
 
+		// Print what we decided on in the appropriate way...
 		if Mode == TUI {
 			fmt.Printf("My move: ")
 		} else {
@@ -74,6 +84,5 @@ func main() {
 	}
 
 	PrintResults(s)
-
-	for {}
 }
+
