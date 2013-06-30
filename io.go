@@ -25,8 +25,6 @@ import (
 	"unicode"
 )
 
-const Log = "/tmp/turgenev.log"
-
 type MoveRepresentation byte
 
 const (
@@ -44,6 +42,15 @@ const (
 var (
 	Mode IOMode = TUI
 	Orientation Color = White
+)
+
+// This Action thing is a hack for telling the game loop to pass control
+// to the other player, since we can't do that here.
+type Action byte
+
+const (
+        MakeMove Action = iota
+        SetCompWhite
 )
 
 func Prompt(s *State) (next *State, a Action) {
