@@ -1,4 +1,6 @@
 all:
-	gccgo -Wall -O2 -o bin/turgenev src/*.go
+	gccgo -Wall -O2 -o turgenev *.go
 clean:
-	rm bin/turgenev
+	rm turgenev
+install:
+	cp --remove-destination turgenev /usr/local/bin/turgenev
