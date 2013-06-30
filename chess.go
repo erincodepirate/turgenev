@@ -238,6 +238,11 @@ func (s *State) LostKing() bool {
 func (s *State) LegalSuccessors() *list.List {
 	l := s.Successors()
 
+	// Make a note of whether s is a state in check, avoiding duplicated effort
+	// with each pass through the following loop.
+	sInCheck := s.InCheck()
+
+	// Loop through the list of successors to s, removing those that are invalid.
 	for e := l.Front(); e != nil; {
 		successor := e.Value.(*State)
 		successorResults := successor.Successors()
@@ -267,10 +272,10 @@ func (s *State) LegalSuccessors() *list.List {
 
 		if valid && castled {
 			// it is illegal to castle out of check...
-			if s.InCheck() {
+			if sInCheck {
 				valid = false
 			// it is illegal to castle through check...
-			} else if s.castledThroughCheck(successor) {
+			} else if s.castledThroughCheck(successor, successorResults) {
 				valid = false
 			}
 		}
@@ -339,8 +344,9 @@ func (s *State) UnicodeKey() string {
 // 	return s
 // }
 
-// Return true iff moving from s to t involves castling through check
-func (s *State) castledThroughCheck(t *State) bool {
+// Return true iff moving from s to t involves castling through check.
+// (Takes a list of t's successors to avoid recomputing them...)
+func (s *State) castledThroughCheck(t *State, l *list.List) bool {
 	var row, col int
 	if s.GetToMove() == White {
 		row = 0
@@ -358,7 +364,6 @@ func (s *State) castledThroughCheck(t *State) bool {
 
 	// If your opponent can take the rook that moved immediately
 	// following a castle, then you castled through check.
-	l := t.Successors()
 	for e := l.Front(); e != nil; e = e.Next() {
 		if e.Value.(*State).getSquare(row, col) != rookPostCastle {
 			return true
