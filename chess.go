@@ -208,7 +208,7 @@ func Opponent(player Color) Color {
 func (s *State) InCheck() bool {
 	cs := CopyState(s)
 	cs.SetToMove(Opponent(s.GetToMove()))
-	il := cs.SemiLegalSuccessors()
+	il := cs.Successors()
 
 	for e := il.Front(); e != nil; e = e.Next() {
 		if e.Value.(*State).LostKing() {
@@ -236,11 +236,11 @@ func (s *State) LostKing() bool {
 
 // Return a list of states that can (strictly) legally follow
 func (s *State) LegalSuccessors() *list.List {
-	l := s.SemiLegalSuccessors()
+	l := s.Successors()
 
 	for e := l.Front(); e != nil; {
 		successor := e.Value.(*State)
-		successorResults := successor.SemiLegalSuccessors()
+		successorResults := successor.Successors()
 		valid, castled := true, false
 
 		// it is illegal to put oneself in check...
@@ -289,7 +289,7 @@ func (s *State) LegalSuccessors() *list.List {
 // on putting oneself in check or castling through/out-of check. Offered
 // because it's faster than its stricter counterpart (and front-end),
 // LegalSuccessors(), while being sufficient for many search purposes.
-func (s *State) SemiLegalSuccessors() *list.List {
+func (s *State) Successors() *list.List {
 	l := list.New()
 
 	for i := 0; i < 8; i++ {
@@ -358,7 +358,7 @@ func (s *State) castledThroughCheck(t *State) bool {
 
 	// If your opponent can take the rook that moved immediately
 	// following a castle, then you castled through check.
-	l := t.SemiLegalSuccessors()
+	l := t.Successors()
 	for e := l.Front(); e != nil; e = e.Next() {
 		if e.Value.(*State).getSquare(row, col) != rookPostCastle {
 			return true
