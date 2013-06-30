@@ -74,6 +74,25 @@ func CopyState(s *State) *State {
 	return t
 }
 
+// A game struct for tracking historical information like past moves
+type Game struct {
+	PastStateKeys *list.List
+}
+
+// Create a new Game with initialized data structures
+func CreateGame() *Game {
+	var g *Game = new(Game)
+	g.PastStateKeys = list.New()
+	return g
+}
+
+// Return an exact copy of the given Game
+func (g *Game) Copy() *Game {
+	n := CreateGame()
+	n.PastStateKeys.PushBackList(g.PastStateKeys)
+	return n
+}
+
 // Return the player to move
 func (s *State) GetToMove() Color {
 	return s.toMove
