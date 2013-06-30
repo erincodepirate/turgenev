@@ -28,12 +28,6 @@ var (
 	Log string = "/tmp/turgenev.log"
 )
 
-func NegamaxWrapper(s *State, depth int) *State {
-	return s.NegamaxST(depth)
-}
-
-type SearchFunction func(*State, int) *State
-
 // The main function is primarily for argument parsing...
 func main() {
 	GameLoop(NegamaxWrapper, 4)

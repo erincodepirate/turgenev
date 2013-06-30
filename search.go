@@ -27,11 +27,15 @@ const (
 	UNSET = 1 << 30
 )
 
-var (
-	WallTime time.Duration
-)
+// Duration of the last search
+var WallTime time.Duration
 
-func (s *State) NegamaxST(depth int) *State {
+// SearchFunction is a type common to all searches used for passing such
+// functions to GameLoop() (for example) as parameters.
+type SearchFunction func(*State, int) *State
+
+// NegamaxST() is a single-threaded negamax search with alpha-beta pruning.
+func NegamaxST(s *State, depth int) *State {
 	start := time.Now()
 
 	children, bestValue := s.LegalSuccessors(), NegInfinity
@@ -50,6 +54,7 @@ func (s *State) NegamaxST(depth int) *State {
 	return choice
 }
 
+// Negamax() is the inner recursive part of the negamax search.
 func (s *State) Negamax(depth, alpha, beta int) int {
 	if depth == 0 || s.LostKing() {
 		return s.Value()
@@ -71,6 +76,7 @@ func (s *State) Negamax(depth, alpha, beta int) int {
 	return alpha
 }
 
+// Value() is the State evaluation function, which returns an integer.
 func (s *State) Value() int {
 	value := 0
 
@@ -80,6 +86,9 @@ func (s *State) Value() int {
 	return value
 }
 
+// PositionAppeal() is one element of the evaluation function which returns
+// an integer expressing the favorability of material distribution on the
+// board.
 func (s *State) PositionAppeal() int {
 	value, player := 0, s.GetToMove()
 
@@ -100,6 +109,9 @@ func (s *State) PositionAppeal() int {
 	return value
 }
 
+// MaterialAdvantage() is one element of the evaluation function which
+// returns an integer expressing the favorability of the material on the
+// board (regardless of its location on the board).
 func (s *State) MaterialAdvantage() int {
 	value, bishops, enemyBishops := 0, 0, 0
 	king, enemyKing := false, false
@@ -145,6 +157,7 @@ func (s *State) MaterialAdvantage() int {
 	return value
 }
 
+// MaterialValue() defines the value of each Piece
 func MaterialValue(piece Piece) int {
 	switch (piece) {
 	case Pawn:
