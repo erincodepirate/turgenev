@@ -18,8 +18,8 @@ The build results in a single binary which can be copied wherever.
 /usr/local/bin/turgenev would be a natural place for it. 
 
 I've focused exclusively on making this work with PyChess, for which you'll
-need to add an entry in its engines.xml (usually in ~/.config/pychess/engines.xml).
-Something like this should do:
+need to add an entry in its engines.xml (usually in
+~/.config/pychess/engines.xml). Something like this should do:
 
 <engine binname="/usr/local/bin/turgenev" protocol="cecp" protover="1"></engine>
 
