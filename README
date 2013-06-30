@@ -7,9 +7,6 @@ BUILD
 This is intended to build with either of the major Go compilers. The go command
 should  work* ('go build', that is), and a makefile is included for gccgo.
 
-* gc doesn't seem to like my new directory structure, so for the time being,
-gccgo is the preferred compiler.
-
 INSTALLATION
 
 The build results in a single binary which can be copied wherever.
