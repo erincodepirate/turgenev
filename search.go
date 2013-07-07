@@ -174,3 +174,58 @@ func MaterialValue(piece Piece) int {
 
 	return 0
 }
+
+// UCTSearch() is the UCT algorithm
+func UCTSearch(s *State) *State {
+// create root node v0 with state s0
+// while within computational budget do
+//   v1 = TreePolicy(v0)
+//   delta = DefaultPolicy(s(v1))
+//   BackupNegaMax(v1, delta)
+// return a(bestChild(v0, 0))
+}
+
+// TreePolicy returns the best state to UCTSearch
+func TreePolicy(v *State) *State {
+// while v is nonterminal do
+//   if v not fully expanded then
+//      return Expand(v)
+//   else
+//      v = BestChild(v, e)
+//   return v
+}
+
+// Expand() expands the states and returns values to TreePolicy()
+func Expand(v *State) *State {
+// choose a element of untried actions from A(s(v))
+// add new child v_prime to v
+//   with s(v_prime) = f(s(v),a)
+//   and a(v_prime) = a
+// return v_prime
+}
+
+// BestChild() Chooses the best child state and returns it to UTCSearch()
+func BestChild(v *State, c int) {
+//  return argmax v_prime element of children of v Q(v_prime)/N(v_prime) + c(sqrt((2ln * N(v))/N(v_prime)
+}
+
+// DefaultPolicy() is used by UTCSearch to determine the value assigned to a move
+func DefaultPolicy(s *State) {
+// while s is non-terminal do
+//   choose a element of A(s) uniformly at random
+//   s = f(s, a)
+// return reward for state s
+}
+
+// BackupNegamax() is used to pick the best move from UTCSearch()
+func BackupNegamax(v *State, d int)
+{
+// while v is not null do
+//   N(v) = N(v) + 1
+//   Q(v) = Q(v) + delta
+//   d = -d
+}
+
+}
+
+
